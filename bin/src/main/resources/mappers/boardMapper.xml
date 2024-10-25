@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.mvc.model.dao.BoardDao">
+	<!-- application.properties에 mybatis.configuration.map-underscore-to-camel-case=true 
+		같은 설정이 있어서 resultMap이 더이상 필요없게 되었다!!! -->
+	<!-- 어퍼, 카멜케이스 똑같은 건 안써도 가능함 -->
+	<!-- <resultMap type="Board" id="boardMap">
+		<result column="id" property="id" />
+		<result column="writer" property="writer" />
+		<result column="title" property="title" />
+		<result column="content" property="content" />
+		<result column="view_cnt" property="viewCnt" />
+		<result column="reg_date" property="regDate" />
+		</resultMap> -->
+
+	<!-- 전체 게시글 조회 -->
+	<!-- <select id="selectAll" resultType="com.ssafy.board.model.dto.Board"> -->
+		<!-- <select id="selectAll" resultType="Board"> mybatis-config.xml에서 typeAlias를 해줬기 때문에 풀패키지명을 안 적어도 됨
+		SELECT id, content, writer, title, reg_date AS regDate, view_cnt AS
+		viewCnt FROM board;
+		자바에서 지정한 것과 DB에서의 컬럼명이 달라서 AS해야하는데 불편하다. 개선 방법은 selectOne에!
+	</select> -->
+	
+	<!-- application.properties에 mybatis.configuration.map-underscore-to-camel-case=true 설정해서 * 으로 모두 떼우기 -->
+	<select id="selectAll" resultType="Board"> <!-- mybatis-config.xml에서 typeAlias를 해줬기 때문에 풀패키지명을 안 적어도 됨 -->
+		SELECT * FROM board;
+	</select>
+	
+	
+
+	<!-- 상세 게시글 조회 -->
+	<!-- <select id="selectOne" resultMap="boardMap" parameterType="int"> SELECt 
+		* FROM board WHERE id = #{id}; 사실 id가 아니라 아무렇게 적어도 되긴 된다 </select> -->
+
+	<!-- 상세 게시글 조회 -->
+	<!-- application.properties에 mybatis.configuration.map-underscore-to-camel-case=true 설정해서 Type써도 됨 -->
+	<select id="selectOne" resultType="Board" parameterType="int">
+		SELECt *
+		FROM board
+		WHERE id = #{id}; <!-- 사실 id가 아니라 아무렇게 적어도 되긴 된다 -->
+	</select>
+
+	<!-- 게시글 등록 -->
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO board (title, writer, content)
+		VALUES (#{title}, #{writer},
+		#{content}); <!-- { 안에 있는 것 } property명과 똑같아야함 -->
+	</insert>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard" parameterType="int">
+		DELETE FROM board
+		WHERE id
+		= ${id};
+	</delete>
+
+	<!-- 조회수 증가 -->
+	<update id="updateViewCnt" parameterType="int">
+		UPDATE board
+		SET
+		view_cnt = view_cnt+1
+		WHERE id = #{id};
+	</update>
+
+	<!-- 업데이트 & 수정 날짜 저장 -->
+	<update id="updateBoard" parameterType="Board">
+		UPDATE board
+		SET title =
+		#{title}, content = #{content}, reg_date = now()
+		WHERE id = #{id};
+	</update>
+
+</mapper>
