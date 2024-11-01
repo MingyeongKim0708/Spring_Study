@@ -13,3 +13,17 @@ CREATE TABLE IF NOT EXISTS `board` (
     `view_cnt` INT DEFAULT 0,
     `reg_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE IF NOT EXISTS `curriculum` (
+    code INT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS `users`(
+    id INT PRIMARY KEY,
+    password VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    curriculum_code INT,
+    FOREIGN KEY (curriculum_code) REFERENCES curriculum(code)
+);

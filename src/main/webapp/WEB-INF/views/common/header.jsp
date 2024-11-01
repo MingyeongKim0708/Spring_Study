@@ -45,3 +45,5 @@
       </nav>
     </div>
   </header>
+  
+  <%@ include file="../common/loginheader.jsp"%>

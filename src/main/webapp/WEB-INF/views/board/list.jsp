@@ -14,9 +14,9 @@
 		style="background-color: var(--surface-color);">
 		<thead class="table-light">
 			<tr>
-				<th>글번호</th>
+				<th>No.</th>
 				<th>제목</th>
-				<th>쓰니</th>
+				<th>작성자</th>
 				<th>조회수</th>
 				<th>날짜</th>
 			</tr>
